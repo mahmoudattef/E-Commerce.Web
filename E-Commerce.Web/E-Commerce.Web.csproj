@@ -15,4 +15,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastrucure\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\Infrastrucure\Presentation\Presentation.csproj" />
+  </ItemGroup>
+
 </Project>
