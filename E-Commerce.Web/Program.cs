@@ -1,12 +1,18 @@
 
+using DomainLayer.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 using Persistence.Data;
+using Persistence.Repositories;
+using Service;
+using Service.MappingProfiles;
+using ServiceAbstraction;
 
 namespace E_Commerce.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +27,18 @@ namespace E_Commerce.Web
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });    
+            builder.Services.AddScoped<IDataSeeding,DataSeeding>();
+            builder.Services.AddScoped<IUnitOFWork,UnitOfWork>();
+            builder.Services.AddScoped<IServiceManager,ServiceManager>();
+            builder.Services.AddAutoMapper(typeof(ProductProfile).Assembly);
+
 
             var app = builder.Build();
+            //Data Seed
+            
+            using var scope= app.Services.CreateScope(); 
+             var ObjDataSeed=  scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+            await  ObjDataSeed.DataSeedAsync();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -32,6 +48,7 @@ namespace E_Commerce.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

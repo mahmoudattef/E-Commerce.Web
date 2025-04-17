@@ -20,6 +20,6 @@ namespace Persistence.Data.Configurations
                 .HasForeignKey(p=>p.TypeId);
             builder.Property(p => p.Price)
                     .HasColumnType("decimal(10,2)");
-        }
+         }
     }
 }
