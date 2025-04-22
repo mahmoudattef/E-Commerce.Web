@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DomainLayer.Contracts;
 using DomainLayer.Models;
+using Service.Specifications;
 using ServiceAbstraction;
+using Shared;
 using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
@@ -21,21 +23,28 @@ namespace Service
             return BrandsDto;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
-        {
-            var Products =await _unitOFWork.GetRepository<Product, int>().GetAllAsync();
-            return _mapper.Map<IEnumerable<Product>,IEnumerable<ProductDto>>(Products);
-        }
 
         public async Task<IEnumerable<TypeDto>> GetAllTypesAsync()
         {
             var Types=await _unitOFWork.GetRepository<ProductType, int>().GetAllAsync();
             return _mapper.Map<IEnumerable<ProductType>, IEnumerable<TypeDto>>(Types);
         }
+        public async Task<PaginatedResult<ProductDto>> GetAllProductsAsync(ProductQueryParams queryParams)
+        {
+            var Repo = _unitOFWork.GetRepository<Product, int>();
+            var Specification = new ProductWithBrandAndTypeSpecifications(queryParams);
+            var Products =await Repo.GetAllAsync(Specification);
+            var Data = _mapper.Map<IEnumerable<Product>,IEnumerable<ProductDto>>(Products);
+            var productCount = Data.Count();
+            var CountSpec = new ProductCountSpecification(queryParams);
+            var TotalCount = await Repo.CountAsync(CountSpec);
+            return new PaginatedResult<ProductDto>(queryParams.PageIndex,productCount,TotalCount,Data);
+        }
 
         public async Task<ProductDto> GetByIdAsync(int id)
-        {
-            var product =await _unitOFWork.GetRepository<Product, int>().GetByIdAsync(id);
+            {
+            var Specifications = new ProductWithBrandAndTypeSpecifications(id);
+            var product =await _unitOFWork.GetRepository<Product, int>().GetByIdAsync(Specifications);
             return _mapper.Map<Product, ProductDto>(product);
         }
     }
