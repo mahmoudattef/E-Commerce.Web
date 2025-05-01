@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServiceAbstraction;
 using Shared.DataTransferObject.BasketModuleDtoss;
 using System;
@@ -9,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
-    [ApiController]
-    [Route("api/[Controller]")]
-    public  class BasketController(IServiceManager _serviceManager):ControllerBase
+    [Authorize]
+    public  class BasketController(IServiceManager _serviceManager): ApiBaseController
     {
         //Get Basket
         [HttpGet]

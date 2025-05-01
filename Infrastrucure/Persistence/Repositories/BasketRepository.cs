@@ -1,5 +1,5 @@
 ﻿using DomainLayer.Models.BasketModule;
-using StackExchange.Redis;
+using StackExchange.Redis;  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace Persistence.Repositories
             var JsonBasket =JsonSerializer.Serialize(basket);
             var IsCreatedOrUpdated = await _database.StringSetAsync(basket.Id,JsonBasket,TimeToLive ?? TimeSpan.FromDays(30));
             if (IsCreatedOrUpdated)
-                return await GetBasketAsync(basket.Id);
+                return basket;
             else return null;
         }
 

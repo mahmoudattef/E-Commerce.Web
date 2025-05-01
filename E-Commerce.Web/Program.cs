@@ -28,11 +28,12 @@ namespace E_Commerce.Web
             
             builder.Services.AddSwaggerServices();
 
-            builder.Services.AddInfraStrucureService(builder.Configuration);
+            builder.Services.AddInfraStructureService(builder.Configuration);
             builder.Services.AddApplicationService();
             
             //Validation Error Response
              builder.Services.AddWebApplicationService();
+            builder.Services.AddJWTService(builder.Configuration);
             var app = builder.Build();
             //Data Seed
             await app.SeedDataBaseAsync();
@@ -47,7 +48,8 @@ namespace E_Commerce.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
+           
             app.UseAuthorization();
 
 

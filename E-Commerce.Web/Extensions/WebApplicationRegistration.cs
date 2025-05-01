@@ -10,7 +10,9 @@ namespace E_Commerce.Web.Extensions
             using var scope = app.Services.CreateScope();
             var ObjDataSeed = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
             await ObjDataSeed.DataSeedAsync();
-    
+            await ObjDataSeed.IdentityDataSeedAsync();
+
+
 
         }
 
