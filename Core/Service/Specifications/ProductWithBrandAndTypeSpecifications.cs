@@ -1,4 +1,4 @@
-﻿using DomainLayer.Models;
+﻿using DomainLayer.Models.ProductModule;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Service.Specifications
 {
-      class ProductWithBrandAndTypeSpecifications:BaseSpecifications<Product,int>
+    class ProductWithBrandAndTypeSpecifications:BaseSpecifications<Product,int>
     {
         //Get All Product With Type And Brands
         public ProductWithBrandAndTypeSpecifications(ProductQueryParams  queryParams) :
