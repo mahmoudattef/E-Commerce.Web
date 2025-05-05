@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject
+namespace Shared.DataTransferObject.ProductModuleDto
 {
     public class ProductDto
     {
@@ -14,7 +14,7 @@ namespace Shared.DataTransferObject
         public string PictureUrl { get; set; } = default!;
         public decimal Price { get; set; }
         public string BrandName { get; set; } = default!;
-        public string TypeName {  get; set; } = default!;
+        public string TypeName { get; set; } = default!;
 
 
 
